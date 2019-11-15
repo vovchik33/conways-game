@@ -1,34 +1,31 @@
 import * as React from "react";
 
-import {FC, Props} from "react";
+import {Component, FC} from "react";
+
+import {conwayGameStore} from "../../stores/conway-game.store";
 
 import "./index.css";
+import {observer} from "mobx-react";
 
 type CellProps =  {
   color?: string;
 }
 
-const data: ReadonlyArray<ReadonlyArray<number>> = [
-  [1,0,1,0,0],
-  [0,1,0,1,0],
-  [0,1,0,1,1],
-  [0,0,0,1,1],
-  [1,1,0,1,1],
-]
-
-export const Cell: FC<CellProps> = (props: CellProps) => (
-  <div className="col">
-    {
-      data.map((row: ReadonlyArray<number>, indexRow)=> (
-        <div key={indexRow} className="row">
-          { row.map((value: number, indexCol) => (<div key={indexCol+indexRow*3} className="cell">{value}</div>)) }
-          <br/>
-        </div>
-      ))
-    }
-  </div>
-);
-
-Cell.defaultProps = {
-  color: "000000"
-} as Pick<CellProps, 'color'>
+@observer
+export class Cell extends Component<CellProps> {
+  render() {
+    return (
+      <div className="col" onClick={conwayGameStore.update}>
+        {
+          conwayGameStore.field.map((row: ReadonlyArray<number>, indexRow) => (
+            <div key={indexRow} className="row">
+              {row.map((value: number, indexCol) => (
+                <div key={indexCol + indexRow * 3} className="cell">{value?"◼":"◻"}</div>))}
+              <br/>
+            </div>
+          ))
+        }
+      </div>
+    );
+  }
+}

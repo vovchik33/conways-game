@@ -1,6 +1,9 @@
 .col {
+  font-family: monospace;
   display: flex;
   flex-direction: column;
+  font-family: monospace;
+  line-height: 0.4em;
 }
 
 .row {

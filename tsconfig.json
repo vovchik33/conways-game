@@ -10,6 +10,7 @@
     "sourceMap": true,
     "jsx": "preserve",
     "target": "es5",
+    "experimentalDecorators": true,
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
