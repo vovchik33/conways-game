@@ -7,7 +7,7 @@ class ConwayGameStore {
   stream$: Observable<string>;
 
   constructor() {
-    this.stream$ = from(['he','er'])
+    this.stream$ = from("SomeTEXT")
       .pipe(
         map(  (w: string) => (w + ' world!'))
       );
