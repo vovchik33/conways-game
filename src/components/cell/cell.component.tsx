@@ -13,6 +13,12 @@ type CellProps =  {
 
 @observer
 export class Cell extends Component<CellProps> {
+  componentDidMount() {
+    conwayGameStore.stream$.subscribe((value: string) => {
+      console.log(value);
+    });
+  }
+
   render() {
     return (
       <div className="col" onClick={conwayGameStore.update}>
