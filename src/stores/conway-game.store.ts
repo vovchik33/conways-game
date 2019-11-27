@@ -2,8 +2,10 @@ import {action, observable} from "mobx";
 import { from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import {injectable} from "inversify";
 
-class ConwayGameStore {
+@injectable()
+export class ConwayGameStore {
   stream$: Observable<string>;
 
   constructor() {
@@ -11,10 +13,6 @@ class ConwayGameStore {
       .pipe(
         map(  (w: string) => (w + ' world!'))
       );
-
-    // this.stream$.subscribe((value: string) => {
-    //   console.log(value);
-    // });
   }
 
 
@@ -58,19 +56,7 @@ class ConwayGameStore {
 
   @action
   update = () => {
-    let field = new Array()
-    this.field = [
-      [1,1,1,1,1,1,1,1,1],
-      [1,1,1,1,1,1,1,1,1],
-      [1,1,1,1,1,1,1,1,1],
-      [1,1,1,1,1,1,1,1,1],
-      [1,1,1,1,1,1,1,1,1],
-      [1,1,1,1,1,1,1,1,1],
-      [1,1,1,1,1,1,1,1,1],
-      [1,1,1,1,1,1,1,1,1],
-      [1,1,1,1,1,1,1,1,1],
-    ]
+    let newField: Array<Array<number>> = this.field.map((row) => row.reverse());
+    this.field = newField;
   }
 }
-
-export const conwayGameStore = new ConwayGameStore();
