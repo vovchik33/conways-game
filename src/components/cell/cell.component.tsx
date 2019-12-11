@@ -28,19 +28,30 @@ export class Cell extends Component<CellProps> {
   }
 
   render() {
+    const {nextStep, zoomIn, zoomOut, field, fieldWidth, fieldHeight} = this._conwayGameStore;
     return (
-      <div className="col" onClick={this._conwayGameStore.update}>
+      <React.Fragment>
+      <div className="controls-bar">
+        <input type="button" value="NEXT STEP" onClick={() => {nextStep()}}/>
+        <input type="button" value="ZOOM IN" onClick={() => {zoomIn()}}/>
+        <div>{`${fieldWidth}x${fieldHeight}`}</div>
+        <input type="button" value="ZOOM OUT" onClick={() => {zoomOut()}}/>
+      </div>
+      <div className="col">
         <div>{this.variable}</div>
         {
-          this._conwayGameStore.field.map((row: ReadonlyArray<number>, indexRow) => (
-            <div key={indexRow} className="row">
+          field.map((row: ReadonlyArray<number>, indexRow) => (
+            (
+              row && <div key={indexRow} className="row">
               {row.map((value: number, indexCol) => (
-                <div key={indexCol + indexRow * 3} className="cell">{value?"◼":"◻"}</div>))}
-              <br/>
-            </div>
+                <div key={indexCol + indexRow * 3} className="cell">{value ? "◼" : "◻"}</div>))}
+                  <br/>
+              </div>
+            )
           ))
         }
       </div>
+      </React.Fragment>
     );
   }
 }
