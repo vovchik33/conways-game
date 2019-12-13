@@ -1,7 +1,7 @@
 {
   "name": "conways-game",
   "version": "1.0.0",
-  "description": "",
+  "description": "[Sources](https://gitlab.com/volodymyrkr/conways-game.git)",
   "main": "src/index.tsx",
   "babel": {
     "presets": [
@@ -53,15 +53,16 @@
     "bundle-loader": "^0.5.6"
   },
   "devDependencies": {
-    "@types/react": "16.8.8",
-    "@types/react-dom": "16.8.2",
-    "@types/rx": "^4.1.1",
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
+    "@types/react": "16.8.8",
+    "@types/react-dom": "16.8.2",
+    "@types/rx": "^4.1.1",
     "@webpack-cli/init": "^0.1.5",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
+    "cellural-automats": "0.0.2",
     "mobx": "^5.15.0",
     "mobx-react": "^6.1.4",
     "typescript": "3.3.3"
@@ -79,5 +80,14 @@
     "not op_mini all"
   ],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/volodymyrkr/conways-game.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://gitlab.com/volodymyrkr/conways-game/issues"
+  },
+  "homepage": "https://gitlab.com/volodymyrkr/conways-game#readme"
 }
