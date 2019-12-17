@@ -2,7 +2,14 @@ import {action, computed, observable} from "mobx";
 import {from, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {injectable} from "inversify";
-import {ConwayElementType, mapConwayElementTypeToArray} from "cellural-automats";
+import {
+  ConwayElementType,
+  createField,
+  FieldType,
+  mapConwayElementTypeToArray,
+  nextStep,
+  putFigure
+} from "cellural-automats";
 
 @injectable()
 export class ConwayGameStore {
@@ -39,11 +46,11 @@ export class ConwayGameStore {
   }
 
   @observable
-  public field: Array<Array<number>>;
+  public field: FieldType<number>;
 
   setFieldSize = (width:number, height:number): boolean => {
     if (width<0 || height<0) return false;
-    this.update(width, height);
+    this.update();
   }
 
   @action
@@ -61,70 +68,17 @@ export class ConwayGameStore {
   }
 
   @action
-  update = (width?:number, height?:number) => {
-    const justResize = !!width && !!height;
-    let newField: Array<Array<number>> = new Array<Array<number>>();
-
-    if (justResize) {
-      this._fieldWidth = width;
-      this._fieldHeight = height;
-    }
-    for (let y = 0; y <= this._fieldHeight; y++) {
-      let row:number[]  = new Array<number>();
-      for (let x = 0; x <=this._fieldWidth; x++){
-        row.push(
-          (x === 0 || x === this._fieldWidth || y === 0 || y === this._fieldHeight)
-            ? 0
-            : this.checkState(y,x, !justResize));
-      }
-      newField.push(row);
-    }
-    this.field = newField;
+  update = () => {
+    this.field = nextStep(this.field);
   }
 
   @action
   clear = () => {
-    this.field = new Array<Array<number>>();
-    for (let y = 0; y <= this._fieldHeight; y++) {
-      let row:number[]  = new Array<number>();
-      for (let x = 0; x <= this._fieldWidth; x++){
-        row.push(0);
-      }
-      this.field.push(row);
-    }
+    this.field = createField(this._fieldWidth, this._fieldHeight, 0);
   }
 
   @action
   put = (x:number, y:number, type:ConwayElementType) => {
-    let figure = mapConwayElementTypeToArray(type);
-    figure.forEach((row, indexY) => {
-      row.forEach((value, indexX) => {
-        this.field[y+indexY][x+indexX] = figure[indexY][indexX];
-      })
-    })
-  }
-
-  checkState  = (y: number,x: number, nextStep:boolean = false) => {
-    if (nextStep) {
-      let count = 0;
-      (this.field[y-1][x-1] === 1 && count++);
-      (this.field[y-1][x+0] === 1 && count++);
-      (this.field[y-1][x+1] === 1 && count++);
-      (this.field[y-0][x-1] === 1 && count++);
-      // (this.field[y+0][x+0] === 1 && count++);
-      (this.field[y-0][x+1] === 1 && count++);
-      (this.field[y+1][x-1] === 1 && count++);
-      (this.field[y+1][x+0] === 1 && count++);
-      (this.field[y+1][x+1] === 1 && count++);
-      return (count===3 && this.field[y+0][x+0] === 0)
-        ?1
-        :((count===2 ||count===3) && this.field[y+0][x+0]===1
-            ?1
-            :0
-        );
-    }
-    return (y<this.field.length&&x<this.field[y].length)
-      ?this.field[y][x]
-      :0;
+    putFigure(this.field, x, y, type);
   }
 }
