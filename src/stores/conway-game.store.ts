@@ -15,17 +15,12 @@ import {
 export class ConwayGameStore {
   stream$: Observable<string>;
 
-  @observable
-  private _fieldWidth: number = 100;
-  @observable
-  private _fieldHeight: number = 60;
-
   constructor() {
     this.stream$ = from("SomeTEXT")
       .pipe(
         map(  (w: string) => (w + ' world!'))
       );
-    this.clear();
+    this.setFieldSize(100, 60);
     this.put(5,5,ConwayElementType.LIGHTER);
     this.put(15,5,ConwayElementType.LIGHTER);
     this.put(Math.random()*40+5,Math.random()*40+5,ConwayElementType.GLIDER);
@@ -35,32 +30,30 @@ export class ConwayGameStore {
     this.put(Math.random()*40+5,Math.random()*40+5,ConwayElementType.GLIDER);
   }
 
-  @computed
   get fieldWidth(): number{
-    return this._fieldWidth;
+    return (this.field && this.field.length>0)? this.field[0].length: 0;
   }
 
-  @computed
   get fieldHeight(): number {
-    return this._fieldHeight;
+    return (this.field)? this.field.length: 0;
   }
 
   @observable
   public field: FieldType<number>;
 
   setFieldSize = (width:number, height:number): boolean => {
-    if (width<0 || height<0) return false;
-    this.update();
+    this.field = createField(width, height, 0);
+    return true;
   }
 
   @action
   zoomIn = () => {
-    this.setFieldSize(this._fieldWidth + 10, this._fieldHeight + 6);
+    this.setFieldSize(this.fieldWidth + 10, this.fieldHeight + 6);
   }
 
   @action
   zoomOut = () => {
-    this.setFieldSize(this._fieldWidth - 10, this._fieldHeight - 6);
+    this.setFieldSize(this.fieldWidth - 10, this.fieldHeight - 6);
   }
 
   nextStep = () => {
@@ -74,7 +67,7 @@ export class ConwayGameStore {
 
   @action
   clear = () => {
-    this.field = createField(this._fieldWidth, this._fieldHeight, 0);
+    this.field = createField(this.fieldWidth, this.fieldHeight, 0);
   }
 
   @action
