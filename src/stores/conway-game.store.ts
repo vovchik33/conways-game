@@ -1,15 +1,17 @@
-import {action, computed, observable} from "mobx";
+import {action, observable} from "mobx";
 import {from, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {injectable} from "inversify";
 import {
   ConwayElementType,
-  createField,
-  FieldType,
-  mapConwayElementTypeToArray,
   nextStep,
   putFigure
-} from "cellural-automats";
+} from "cellural-automats/dist/cellural-automats/conways-game-life";
+
+import {
+  createField,
+  FieldType
+} from "cellural-automats/dist/cellural-automats/common/utils";
 
 @injectable()
 export class ConwayGameStore {
