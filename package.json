@@ -62,7 +62,7 @@
     "@webpack-cli/init": "^0.1.5",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
-    "cellural-automats": "^0.0.24",
+    "cellural-automats": "^0.0.25",
     "mobx": "^5.15.1",
     "mobx-react": "^6.1.4",
     "typescript": "^3.7.4"
